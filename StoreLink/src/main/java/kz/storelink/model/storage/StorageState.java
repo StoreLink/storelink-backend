@@ -2,6 +2,7 @@ package kz.storelink.model.storage;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.mapping.Set;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;

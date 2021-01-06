@@ -5,17 +5,18 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "storage")
 @Data
 @NoArgsConstructor
-public class Storage {
+public class Storage implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,22 +30,28 @@ public class Storage {
     private Double storage_size;
     private Double storage_longitude;
     private Double storage_latitude;
-    private String storage_available_time;
-
-    //Upload List of Photos by URL's of photo
-//    @OneToMany
-//    List<StorageImages> storage_images;
-    @ToString.Exclude
-    @OneToMany(mappedBy = "storage")
-    private List<StorageType> storage_type;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate created_date = LocalDate.now();
-
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate expirationDate;
 
-    private double rate;
-    private int count;
+    // Relations between Storage and options is Man to One annotation linked through FK
+    // Many storages can take the same option
+    @ManyToOne
+    @JoinColumn(name = "storage_available_time_id")
+    private StorageAvailableTime storageAvailableTime;
+    @ManyToOne
+    @JoinColumn(name = "storage_category_id")
+    private StorageCategory storageCategory;
+    @ManyToOne
+    @JoinColumn(name = "storage_state_id")
+    private StorageState storageState;
+    @ManyToOne
+    @JoinColumn(name = "storage_type_id")
+    private StorageType storageType;
 
+    // Relation with Images One to Many, Images type is "LIST"
+    @OneToMany(mappedBy = "storage")
+    private final List<StorageImage> images = new ArrayList<StorageImage>();
 }
