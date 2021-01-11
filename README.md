@@ -1,4 +1,4 @@
-# For Lauтch project, follow steps below:
+# For Launch project, follow steps below:
 1) Open PostgreSQL server, and create DB named: "storelink" (do not create, insert tables and etc.)
 2) Open project and wait until all maven dependencies download
 3) In project structure find class named: "application.properties" and go into
