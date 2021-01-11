@@ -59,18 +59,18 @@ public class Storage implements Serializable {
 
 
     // Extra column Relation Many to Many Storage-Parameter, analogue for Comments(List), UserStorage, StorageItem
-    @OneToMany(mappedBy = "storage_id")
+    @OneToMany(mappedBy = "storage_parameter_id")
     private final Set<StorageParameter> storageParameter = new HashSet<StorageParameter>();
-    @OneToMany(mappedBy = "storage_id")
+    @OneToMany(mappedBy = "storage_item_id")
     private final Set<StorageItem> storageItem = new HashSet<StorageItem>();
-    @OneToMany(mappedBy = "storage_id")
+    @OneToMany(mappedBy = "comment_id")
     private final Set<Comment> comment = new HashSet<Comment>();
-    @OneToMany(mappedBy = "storage_id")
+    @OneToMany(mappedBy = "user_storage_id")
     private final Set<UserStorage> userStorage = new HashSet<UserStorage>();
 
 
     // One to Many Relation One Storage has Many Images
-    @OneToMany(mappedBy = "storage_id")
+    @OneToMany(mappedBy = "storage_image_id")
     private final List<StorageImage> image = new ArrayList<StorageImage>();
 
 }

@@ -18,13 +18,13 @@ public class StorageImage implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long storage_images_id;
+    private Long storage_image_id;
 
     // Write down into Image - Current time From Year to Millisecond
     // Convert Long into String
     // currentTimeMillis() function output: 210106113723
     @NotNull
     @NotEmpty
-    private String storage_images_name = String.valueOf(currentTimeMillis());
+    private String storage_image_name = String.valueOf(currentTimeMillis());
 
 }

@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Data
 @NoArgsConstructor
 public class User implements Serializable {
@@ -41,11 +41,11 @@ public class User implements Serializable {
     private Role role;
 
     // Extra column Relation Many to Many Storage-User(Comment), User and Storage, User and Item
-    @OneToMany(mappedBy = "user_id")
+    @OneToMany(mappedBy = "comment_id")
     private final Set<Comment> comment = new HashSet<Comment>();
-    @OneToMany(mappedBy = "user_id")
+    @OneToMany(mappedBy = "user_storage_id")
     private final Set<UserStorage> userStorage = new HashSet<UserStorage>();
-    @OneToMany(mappedBy = "user_id")
+    @OneToMany(mappedBy = "user_item_id")
     private final Set<UserItem> userItem = new HashSet<UserItem>();
 
 }

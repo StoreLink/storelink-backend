@@ -36,9 +36,9 @@ public class Item implements Serializable {
     private ItemCategory itemCategory;
 
     // Extra column Relation Many to Many Item-Storage
-    @OneToMany(mappedBy = "item_id")
-    private final Set<StorageItem> storageItem = new HashSet<StorageItem>();
-    @OneToMany(mappedBy = "item_id")
-    private final Set<UserItem> userItem = new HashSet<UserItem>();
+    @OneToMany(mappedBy = "storage_item_id")
+    private final Set<StorageItem> storageItems = new HashSet<StorageItem>();
+    @OneToMany(mappedBy = "user_item_id")
+    private final Set<UserItem> userItems = new HashSet<UserItem>();
 
 }

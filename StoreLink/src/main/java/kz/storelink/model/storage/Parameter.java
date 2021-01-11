@@ -26,7 +26,7 @@ public class Parameter implements Serializable {
     private String parameter_img;
 
     // Extra column Relation Many to Many Storage-Parameter
-    @OneToMany(mappedBy = "parameter_id")
+    @OneToMany(mappedBy = "storage_parameter_id")
     private Set<StorageParameter> storageParameter = new HashSet<StorageParameter>();
 
 }
