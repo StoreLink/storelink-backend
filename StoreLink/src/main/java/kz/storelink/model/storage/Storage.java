@@ -4,11 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.NotEmpty;
 
-import kz.storelink.model.item.Item;
-import kz.storelink.model.user.Comment;
+import kz.storelink.model.Comment;
+import kz.storelink.model.StorageItem;
+import kz.storelink.model.UserStorage;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -57,33 +57,20 @@ public class Storage implements Serializable {
     @JoinColumn(name = "storage_type_id")
     private StorageType storageType;
 
-    // Relation with Images and Comment One to Many, Images type is "LIST" Comment analogue
+
+    // Extra column Relation Many to Many Storage-Parameter, analogue for Comments(List), UserStorage, StorageItem
     @OneToMany(mappedBy = "storage_id")
-    private final List<StorageImage> images = new ArrayList<StorageImage>();
+    private final Set<StorageParameter> storageParameter = new HashSet<StorageParameter>();
     @OneToMany(mappedBy = "storage_id")
-    private final List<Comment> comments = new ArrayList<Comment>();
-
-    // Relation with Parameter (Many to Many, so Join columns by new table Storage_Parameter)
-    @ToString.Exclude
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-            name = "storage_parameter",
-            joinColumns = { @JoinColumn(name = "storage_id") },
-            inverseJoinColumns = { @JoinColumn(name = "parameter_id") }
-    )
-    private Set<Parameter> parameter = new HashSet<>();
-
-    // Relation with Item (Many to Many, so Join columns by new table Storage_Item)
-    @ToString.Exclude
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-            name = "storage_item",
-            joinColumns = { @JoinColumn(name = "storage_id") },
-            inverseJoinColumns = { @JoinColumn(name = "item_id") }
-    )
-    private Set<Item> item = new HashSet<>();
+    private final Set<StorageItem> storageItem = new HashSet<StorageItem>();
+    @OneToMany(mappedBy = "storage_id")
+    private final Set<Comment> comment = new HashSet<Comment>();
+    @OneToMany(mappedBy = "storage_id")
+    private final Set<UserStorage> userStorage = new HashSet<UserStorage>();
 
 
-
+    // One to Many Relation One Storage has Many Images
+    @OneToMany(mappedBy = "storage_id")
+    private final List<StorageImage> image = new ArrayList<StorageImage>();
 
 }

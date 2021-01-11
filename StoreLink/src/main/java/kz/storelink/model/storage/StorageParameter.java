@@ -1,4 +1,4 @@
-package kz.storelink.model;
+package kz.storelink.model.storage;
 
 import kz.storelink.model.storage.Parameter;
 import kz.storelink.model.storage.Storage;
@@ -9,22 +9,20 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "storage")
+@Table(name = "storage_parameter")
 @Data
 @NoArgsConstructor
-public class Storage_Parameter implements Serializable {
+public class StorageParameter implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storage_parameter_id;
 
+    // Join two Primary Keys into table StorageParameter
     @ManyToOne
-    @MapsId("storage_id") //This is the name of attr in Storage class
     @JoinColumn(name = "storage_id")
     private Storage storage;
-
     @ManyToOne
-    @MapsId("parameter_id") //This is the name of attr in Parameter class
     @JoinColumn(name = "parameter_id")
     private Parameter parameter;
 

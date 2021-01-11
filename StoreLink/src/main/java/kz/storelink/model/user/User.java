@@ -1,7 +1,8 @@
 package kz.storelink.model.user;
 
-import kz.storelink.model.item.Item;
-import kz.storelink.model.storage.Storage;
+import kz.storelink.model.Comment;
+import kz.storelink.model.UserItem;
+import kz.storelink.model.UserStorage;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -33,32 +34,18 @@ public class User implements Serializable {
     private String user_image;
     private String payment_card;
 
-    // Relation with Item (Many to Many, so Join columns by new table User_Item)
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-            name = "User_Item",
-            joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = { @JoinColumn(name = "item_id") }
-    )
-    private Set<Item> item = new HashSet<>();
-
-    // Relation with Storage (Many to Many, so Join columns by new table User_Storage)
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-            name = "User_Storage",
-            joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = { @JoinColumn(name = "storage_id") }
-    )
-    private Set<Storage> storage = new HashSet<>();
-
-
-    private Comment comment;
+    // Relations between User and Role is Many to One annotation linked through FK
+    // Many users can take the same role
     @ManyToOne
-    public Comment getComment() {
-        return comment;
-    }
-    public void setComment(Comment comment) {
-        this.comment = comment;
-    }
+    @JoinColumn(name = "role_id")
+    private Role role;
+
+    // Extra column Relation Many to Many Storage-User(Comment), User and Storage, User and Item
+    @OneToMany(mappedBy = "user_id")
+    private final Set<Comment> comment = new HashSet<Comment>();
+    @OneToMany(mappedBy = "user_id")
+    private final Set<UserStorage> userStorage = new HashSet<UserStorage>();
+    @OneToMany(mappedBy = "user_id")
+    private final Set<UserItem> userItem = new HashSet<UserItem>();
 
 }

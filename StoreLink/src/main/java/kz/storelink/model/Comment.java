@@ -1,6 +1,8 @@
-package kz.storelink.model.user;
+package kz.storelink.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import kz.storelink.model.storage.Storage;
+import kz.storelink.model.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,8 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "comment")
@@ -26,10 +27,15 @@ public class Comment implements Serializable {
     private String comment_text;
     private Double rate;
 
-    // Relation with User and Storage One to Many
-    @OneToMany(mappedBy = "comment")
-    private final List<User> user = new ArrayList<User>();
-    @OneToMany(mappedBy = "comment")
-    private final List<Storage> storage = new ArrayList<Storage>();
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate created_date = LocalDate.now();
+
+    // Join two Primary Keys into table Comment
+    @ManyToOne
+    @JoinColumn(name = "storage_id")
+    private Storage storage;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

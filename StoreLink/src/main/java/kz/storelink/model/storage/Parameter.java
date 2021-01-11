@@ -7,6 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "parameter")
@@ -22,5 +24,9 @@ public class Parameter implements Serializable {
     @NotEmpty
     private String parameter_name;
     private String parameter_img;
+
+    // Extra column Relation Many to Many Storage-Parameter
+    @OneToMany(mappedBy = "parameter_id")
+    private Set<StorageParameter> storageParameter = new HashSet<StorageParameter>();
 
 }
