@@ -7,13 +7,16 @@ import org.hibernate.mapping.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.HashSet;
+
+import static java.lang.System.currentTimeMillis;
 
 @Entity
 @Table(name = "storage_image")
 @Data
 @NoArgsConstructor
-public class StorageImage {
+public class StorageImage implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,19 +24,21 @@ public class StorageImage {
 
     private Storage storage;
 
+    // Write down into Image - Current time From Year to Millisecond
+    // Convert Long into String
+    // currentTimeMillis() function output: 210106113723
     @NotNull
     @NotEmpty
-    private String storage_images_name;
+    private String storage_images_name = String.valueOf(currentTimeMillis());
 
-    @ManyToOne
-    public Storage getStorage() {
-        return storage;
-    }
+//    // Leave the standard column name of the table
+//    @ManyToOne
+//    public Storage getStorage() {
+//        return storage;
+//    }
+//
+//    public void setStorage(Storage storage) {
+//        this.storage = storage;
+//    }
 
-    public void setStorage(Storage storage) {
-        this.storage = storage;
-    }
-
-
-    //private Set<StorageImage> storageImage = new HashSet<>();
 }

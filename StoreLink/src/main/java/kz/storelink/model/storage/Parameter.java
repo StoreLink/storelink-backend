@@ -2,7 +2,6 @@ package kz.storelink.model.storage;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.mapping.Set;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -10,18 +9,18 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "storage_category")
+@Table(name = "parameter")
 @Data
 @NoArgsConstructor
-public class StorageCategory implements Serializable {
+public class Parameter implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long storage_category_id;
+    private Long parameter_id;
 
     @NotNull
     @NotEmpty
-    private String storage_category_name;
-    private String storage_category_description;
+    private String parameter_name;
+    private String parameter_img;
 
 }

@@ -7,12 +7,13 @@ import org.hibernate.mapping.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "storage_state")
 @Data
 @NoArgsConstructor
-public class StorageState {
+public class StorageState implements Serializable  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
