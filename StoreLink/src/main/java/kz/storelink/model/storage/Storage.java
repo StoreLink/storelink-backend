@@ -58,6 +58,7 @@ public class Storage implements Serializable {
     private StorageType storageType;
 
 
+
     // Extra column Relation Many to Many Storage-Parameter, analogue for Comments(List), UserStorage, StorageItem
     @OneToMany(mappedBy = "storage_parameter_id")
     private final Set<StorageParameter> storageParameter = new HashSet<StorageParameter>();

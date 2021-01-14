@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "item_category")
@@ -23,5 +24,10 @@ public class ItemCategory implements Serializable {
     private String item_category_name;
     private String item_category_description;
     private String item_category_image;
+
+    // Get list of Items
+    // LAZY = fetch when needed, Cascade = update data in entity without affecting it
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "item_id")
+    public Set<Item> item;
 
 }

@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "role")
@@ -21,5 +22,10 @@ public class Role implements Serializable {
     @NotNull
     @NotEmpty
     private String role_name;
+
+    // Get list of Items
+    // LAZY = fetch when needed, Cascade = update data in entity without affecting it
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user_id")
+    public Set<User> user;
 
 }

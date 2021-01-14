@@ -11,6 +11,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,29 +24,30 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long user_id;
 
-    //User Attributes
     @NotNull
     @NotEmpty
-    private String full_name;
+    @Column(unique = true)
+    private String username;
     private String phone_number;
     private String nin;
-    private String email;
     private String password;
-    private String user_image;
-    private String payment_card;
 
-    // Relations between User and Role is Many to One annotation linked through FK
+
+    // Relations between User and Role is @ManytoOne annotation linked through FK (Foreign Key)
     // Many users can take the same role
-    @ManyToOne
+    // LAZY = fetch when needed, Cascade = update data in entity without affecting it
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id")
     private Role role;
 
     // Extra column Relation Many to Many Storage-User(Comment), User and Storage, User and Item
-    @OneToMany(mappedBy = "comment_id")
-    private final Set<Comment> comment = new HashSet<Comment>();
-    @OneToMany(mappedBy = "user_storage_id")
-    private final Set<UserStorage> userStorage = new HashSet<UserStorage>();
-    @OneToMany(mappedBy = "user_item_id")
-    private final Set<UserItem> userItem = new HashSet<UserItem>();
+    // We need to get data. Type of Data is LIST
+    // LAZY = fetch when needed, Cascade = update data in entity without affecting it
+    @OneToMany(mappedBy = "comment_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Comment> comment;
+    @OneToMany(mappedBy = "user_storage_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<UserStorage> userStorage;
+    @OneToMany(mappedBy = "user_item_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<UserItem> userItem;
 
 }
