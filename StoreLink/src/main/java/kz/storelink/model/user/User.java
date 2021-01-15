@@ -1,18 +1,18 @@
 package kz.storelink.model.user;
 
 import kz.storelink.model.Comment;
-import kz.storelink.model.UserItem;
-import kz.storelink.model.UserStorage;
+import kz.storelink.model.item.Item;
+import kz.storelink.model.storage.Storage;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -20,34 +20,53 @@ import java.util.Set;
 @NoArgsConstructor
 public class User implements Serializable {
 
+    // --- COLUMNS --- //
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long user_id;
 
     @NotNull
     @NotEmpty
+    @Size(max = 32)
     @Column(unique = true)
     private String username;
+
+    @NotNull
+    @NotEmpty
+    @Size(max = 12)
+    @Column(unique = true)
     private String phone_number;
-    private String nin;
+
+    @NotNull
+    @NotEmpty
+    @Size(min = 8, max = 32)
     private String password;
 
+    // --- RELATIONS --- //
 
-    // Relations between User and Role is @ManytoOne annotation linked through FK (Foreign Key)
-    // Many users can take the same role
+    // Relations between User and UserDetail is @OneToOne
+    // One user has one detail
     // LAZY = fetch when needed, Cascade = update data in entity without affecting it
+    // mappedBy is look for a field named user in the UserDetails entity
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)
+    private UserDetails userDetails;
+
+    // Relations between "User and Role" is @ManyToOne annotation linked through FK (Foreign Key)
+    // Many users can take the same role
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "role_id", nullable = false, updatable = true)
     private Role role;
 
-    // Extra column Relation Many to Many Storage-User(Comment), User and Storage, User and Item
-    // We need to get data. Type of Data is LIST
-    // LAZY = fetch when needed, Cascade = update data in entity without affecting it
-    @OneToMany(mappedBy = "comment_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Comment> comment;
-    @OneToMany(mappedBy = "user_storage_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<UserStorage> userStorage;
-    @OneToMany(mappedBy = "user_item_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<UserItem> userItem;
+    // Bidirectional Relations between "User and Comment", "User and Storage", "User and Item"
+    // is @OneToMany annotation linked through FK (Foreign Key)
+    // One user has many comments, storages, items
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "comment_id")
+    private List<Comment> comments = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "storage_id")
+    private List<Storage> storages = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "item_id")
+    private List<Item> items = new ArrayList<>();
 
 }

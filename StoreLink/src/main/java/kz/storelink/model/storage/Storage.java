@@ -5,18 +5,17 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.NotEmpty;
 
 import kz.storelink.model.Comment;
-import kz.storelink.model.StorageItem;
-import kz.storelink.model.UserStorage;
+import kz.storelink.model.item.Item;
+import kz.storelink.model.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "storage")
@@ -24,54 +23,81 @@ import java.util.Set;
 @NoArgsConstructor
 public class Storage implements Serializable {
 
+    // --- COLUMNS --- //
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storage_id;
 
     @NotNull
     @NotEmpty
+    @Size(max = 64)
     private String storage_name;
+
+    @NotNull
+    @NotEmpty
+    @Size(max = 255)
     private String storage_description;
+
+    @NotNull
+    @NotEmpty
     private Double storage_price;
+
+    @NotNull
+    @NotEmpty
     private Double storage_size;
+
+    @NotNull
+    @NotEmpty
     private Double storage_longitude;
+    @NotNull
+    @NotEmpty
+    @Size(max = 64)
     private Double storage_latitude;
+
+    @NotNull
+    @NotEmpty
+    @Size(max = 255)
+    private Double storage_available_time;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate created_date = LocalDate.now();
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate expirationDate;
 
-    // Relations between Storage and options is Many to One annotation linked through FK
+    @NotNull
+    @NotEmpty
+    @Size(max = 255)
+    private Double storage_image;
+
+    // --- RELATIONS --- //
+
+    // LAZY = fetch when needed, Cascade = update data in entity without affecting it
+    // Relations between "Storage and StorageCategory", "Storage and StorageState", "Storage and StorageType"
+    // is @ManyToOne annotation linked through FK (Foreign Key)
     // Many storages can take the same option
-    @ManyToOne
-    @JoinColumn(name = "storage_available_time_id")
-    private StorageAvailableTime storageAvailableTime;
-    @ManyToOne
-    @JoinColumn(name = "storage_category_id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "storage_category_id", nullable = false, updatable = true)
     private StorageCategory storageCategory;
-    @ManyToOne
-    @JoinColumn(name = "storage_state_id")
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "storage_state_id", nullable = false, updatable = true)
     private StorageState storageState;
-    @ManyToOne
-    @JoinColumn(name = "storage_type_id")
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "storage_type_id", nullable = false, updatable = true)
     private StorageType storageType;
 
-
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
+    private User user;
 
     // Extra column Relation Many to Many Storage-Parameter, analogue for Comments(List), UserStorage, StorageItem
-    @OneToMany(mappedBy = "storage_parameter_id")
-    private final Set<StorageParameter> storageParameter = new HashSet<StorageParameter>();
-    @OneToMany(mappedBy = "storage_item_id")
-    private final Set<StorageItem> storageItem = new HashSet<StorageItem>();
-    @OneToMany(mappedBy = "comment_id")
-    private final Set<Comment> comment = new HashSet<Comment>();
-    @OneToMany(mappedBy = "user_storage_id")
-    private final Set<UserStorage> userStorage = new HashSet<UserStorage>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "storage_parameter_id")
+    private List<StorageParameter> storageParameter = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "item_id")
+    private List<Item> items = new ArrayList<>();
 
-    // One to Many Relation One Storage has Many Images
-    @OneToMany(mappedBy = "storage_image_id")
-    private final List<StorageImage> image = new ArrayList<StorageImage>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "comment_id")
+    private List<Comment> comments = new ArrayList<>();
 
 }

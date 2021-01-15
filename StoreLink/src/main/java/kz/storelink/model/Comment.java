@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -18,24 +19,33 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Comment implements Serializable {
 
+    // --- COLUMNS --- //
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long comment_id;
 
     @NotNull
     @NotEmpty
+    @Size(max = 255)
     private String comment_text;
     private Double rate;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDate created_date = LocalDate.now();
 
-    // Join two Primary Keys into table Comment
-    @ManyToOne
-    @JoinColumn(name = "storage_id")
-    private Storage storage;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    // --- RELATIONS --- //
+
+    // LAZY = fetch when needed, Cascade = update data in entity without affecting it
+    // Relations between "Comment and User", "Comment and Storage"
+    // is @ManyToOne annotation linked through FK (Foreign Key)
+    // Many comments can take the same user, storage
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "storage_id", nullable = false, updatable = false)
+    private Storage storage;
 
 }
