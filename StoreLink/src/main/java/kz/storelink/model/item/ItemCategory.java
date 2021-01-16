@@ -25,19 +25,10 @@ public class ItemCategory implements Serializable {
 
     @NotNull
     @NotEmpty
-    @Size(max = 32)
     @Column(unique = true)
-    private String item_category_name;
-
-    @NotNull
-    @NotEmpty
-    @Size(max = 64)
-    private String item_category_description;
-
-    @NotNull
-    @NotEmpty
-    @Size(max = 64)
-    private String item_category_image;
+    private String item_category_name,
+            item_category_description,
+            item_category_image;
 
     // --- RELATIONS --- //
 

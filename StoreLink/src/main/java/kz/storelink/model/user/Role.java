@@ -25,14 +25,10 @@ public class Role implements Serializable {
 
     @NotNull
     @NotEmpty
-    @Size(max = 32)
-    @Column(unique = true)
-    private String role_name;
-
-    @NotNull
-    @NotEmpty
     @Size(max = 64)
-    private String role_description;
+    @Column(unique = true)
+    private String role_name,
+            role_description;
 
     // --- RELATIONS --- //
 

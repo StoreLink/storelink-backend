@@ -30,18 +30,9 @@ public class User implements Serializable {
     @NotEmpty
     @Size(max = 32)
     @Column(unique = true)
-    private String username;
-
-    @NotNull
-    @NotEmpty
-    @Size(max = 12)
-    @Column(unique = true)
-    private String phone_number;
-
-    @NotNull
-    @NotEmpty
-    @Size(min = 8, max = 32)
-    private String password;
+    private String username,
+            phone_number,
+            password;
 
     // --- RELATIONS --- //
 

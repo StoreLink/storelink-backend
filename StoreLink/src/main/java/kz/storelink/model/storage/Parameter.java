@@ -27,17 +27,11 @@ public class Parameter implements Serializable {
 
     @NotNull
     @NotEmpty
-    @Size(max = 32)
     @Column(unique = true)
-    private String parameter_name;
-
-    @NotNull
-    @NotEmpty
-    @Size(max = 64)
-    private String parameter_img;
+    private String parameter_name,
+            parameter_image;
 
     // --- RELATIONS --- //
-
 
     // Bidirectional Relations between "Parameter and StorageParameter" is @OneToMany annotation linked through FK (Foreign Key)
     // One StorageParameter has many Parameters

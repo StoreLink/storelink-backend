@@ -25,19 +25,11 @@ public class StorageState implements Serializable  {
 
     @NotNull
     @NotEmpty
-    @Size(max = 32)
-    @Column(unique = true)
-    private String storage_state_name;
-
-    @NotNull
-    @NotEmpty
     @Size(max = 255)
-    private String storage_state_description;
-
-    @NotNull
-    @NotEmpty
-    @Size(max = 64)
-    private String storage_state_image;
+    @Column(unique = true)
+    private String storage_state_name,
+            storage_state_description,
+            storage_state_image;
 
     // --- RELATIONS --- //
 

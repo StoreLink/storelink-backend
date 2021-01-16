@@ -27,26 +27,15 @@ public class Item implements Serializable {
 
     @NotNull
     @NotEmpty
-    @Size(max = 64)
-    private String item_name;
+    private String item_name,
+                item_description,
+                item_image;
 
     @NotNull
     @NotEmpty
-    @Size(max = 255)
-    private String item_description;
+    private Double item_count,
+            item_size;
 
-    @NotNull
-    @NotEmpty
-    @Size(max = 255)
-    private String item_image;
-
-    @NotNull
-    @NotEmpty
-    private Long item_count;
-
-    @NotNull
-    @NotEmpty
-    private Double item_size;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate item_uploadDate = LocalDate.now();

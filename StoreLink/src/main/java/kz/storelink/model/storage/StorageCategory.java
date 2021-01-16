@@ -25,19 +25,10 @@ public class StorageCategory implements Serializable {
 
     @NotNull
     @NotEmpty
-    @Size(max = 32)
     @Column(unique = true)
-    private String storage_category_name;
-
-    @NotNull
-    @NotEmpty
-    @Size(max = 255)
-    private String storage_category_description;
-
-    @NotNull
-    @NotEmpty
-    @Size(max = 64)
-    private String storage_category_image;
+    private String storage_category_name,
+            storage_category_description,
+            storage_category_image;
 
     // --- RELATIONS --- //
 

@@ -22,26 +22,12 @@ public class UserDetails {
     @NotEmpty
     @Size(max = 12)
     @Column(unique = true)
-    private String nin;
-
-    @NotNull
-    @NotEmpty
-    @Size(max = 32)
-    private String first_name;
-
-    @NotNull
-    @NotEmpty
-    @Size(max = 32)
-    private String last_name;
-
-    @Size(max = 64)
-    private String email;
-
-    @Size(max = 64)
-    private String user_image;
-
-    @Size(max = 16)
-    private String payment_card;
+    private String nin,
+            first_name,
+            last_name,
+            email,
+            user_image,
+            payment_card;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 10)

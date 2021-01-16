@@ -25,19 +25,11 @@ public class StorageType implements Serializable {
 
     @NotNull
     @NotEmpty
-    @Size(max = 32)
-    @Column(unique = true)
-    private String storage_type_name;
-
-    @NotNull
-    @NotEmpty
     @Size(max = 255)
-    private String storage_type_description;
-
-    @NotNull
-    @NotEmpty
-    @Size(max = 64)
-    private String storage_type_image;
+    @Column(unique = true)
+    private String storage_type_name,
+            storage_type_description,
+            storage_type_image;
 
     // --- RELATIONS --- //
 

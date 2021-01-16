@@ -31,42 +31,20 @@ public class Storage implements Serializable {
 
     @NotNull
     @NotEmpty
-    @Size(max = 64)
-    private String storage_name;
+    private String storage_name,
+            storage_description,
+            storage_available_time,
+            storage_image;
 
     @NotNull
     @NotEmpty
-    @Size(max = 255)
-    private String storage_description;
-
-    @NotNull
-    @NotEmpty
-    private Double storage_price;
-
-    @NotNull
-    @NotEmpty
-    private Double storage_size;
-
-    @NotNull
-    @NotEmpty
-    private Double storage_longitude;
-    @NotNull
-    @NotEmpty
-    @Size(max = 64)
-    private Double storage_latitude;
-
-    @NotNull
-    @NotEmpty
-    @Size(max = 255)
-    private Double storage_available_time;
+    private Double storage_price,
+            storage_size,
+            storage_longitude,
+            storage_latitude;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate created_date = LocalDate.now();
-
-    @NotNull
-    @NotEmpty
-    @Size(max = 255)
-    private Double storage_image;
 
     // --- RELATIONS --- //
 
