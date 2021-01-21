@@ -1,8 +1,6 @@
 package kz.storelink.model.storage;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.NotEmpty;
 
 import kz.storelink.model.Comment;
 import kz.storelink.model.item.Item;
@@ -11,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -29,22 +26,61 @@ public class Storage implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storage_id;
 
-    @NotNull
-    @NotEmpty
-    private String storage_name,
-            storage_description,
-            storage_available_time,
-            storage_image;
+    @Column(
+            name = "storage_name",
+            nullable = false,
+            length = 32,
+            columnDefinition = "TEXT"
+    )
+    private String storage_name;
 
-    @NotNull
-    @NotEmpty
-    private Double storage_price,
-            storage_size,
-            storage_longitude,
-            storage_latitude;
+    @Column(
+            name = "storage_description",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
+    private String storage_description;
+
+    @Column(
+            name = "storage_available_time",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
+    private String storage_available_time;
+
+    @Column(
+            name = "storage_image",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
+    private String storage_image;
+
+    @Column(
+            name = "storage_price",
+            nullable = false
+    )
+    private Double storage_price;
+
+    @Column(
+            name = "storage_size",
+            nullable = false
+    )
+    private Double storage_size;
+
+    @Column(
+            name = "storage_longitude",
+            nullable = false
+    )
+    private Double storage_longitude;
+
+    @Column(
+            name = "storage_latitude",
+            nullable = false
+    )
+    private Double storage_latitude;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate created_date = LocalDate.now();
+    private LocalDate created_date;
 
     // --- RELATIONS --- //
 

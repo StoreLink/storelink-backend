@@ -4,15 +4,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "item_category")
+@Table(
+        name = "item_category",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "item_category_name_unique", columnNames = "item_category_name")
+        }
+)
 @Data
 @NoArgsConstructor
 public class ItemCategory implements Serializable {
@@ -23,12 +25,28 @@ public class ItemCategory implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long item_category_id;
 
-    @NotNull
-    @NotEmpty
-    @Column(unique = true)
-    private String item_category_name,
-            item_category_description,
-            item_category_image;
+    @Column(
+            name = "item_category_name",
+            nullable = false,
+            unique = true,
+            length = 32,
+            columnDefinition = "TEXT"
+    )
+    private String item_category_name;
+
+    @Column(
+            name = "item_category_description",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
+    private String item_category_description;
+
+    @Column(
+            name = "item_category_image",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
+    private String item_category_image;
 
     // --- RELATIONS --- //
 

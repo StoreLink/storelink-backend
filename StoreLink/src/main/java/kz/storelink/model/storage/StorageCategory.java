@@ -4,15 +4,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "storage_category")
+@Table(
+        name = "storage_category",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "storage_category_name_unique", columnNames = "storage_category_name")
+        }
+)
 @Data
 @NoArgsConstructor
 public class StorageCategory implements Serializable {
@@ -23,12 +25,28 @@ public class StorageCategory implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storage_category_id;
 
-    @NotNull
-    @NotEmpty
-    @Column(unique = true)
-    private String storage_category_name,
-            storage_category_description,
-            storage_category_image;
+    @Column(
+            name = "storage_category_name",
+            nullable = false,
+            unique = true,
+            length = 32,
+            columnDefinition = "TEXT"
+    )
+    private String storage_category_name;
+
+    @Column(
+            name = "storage_category_description",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
+    private String storage_category_description;
+
+    @Column(
+            name = "storage_category_image",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
+    private String storage_category_image;
 
     // --- RELATIONS --- //
 

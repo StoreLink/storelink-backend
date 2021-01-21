@@ -7,9 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -25,14 +22,20 @@ public class Comment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long comment_id;
 
-    @NotNull
-    @NotEmpty
-    @Size(max = 255)
+    @Column(
+            name = "comment_text",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
     private String comment_text;
+
+    @Column(
+            name = "rate"
+    )
     private Double rate;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDate created_date = LocalDate.now();
+    private LocalDate created_date;
 
     // --- RELATIONS --- //
 
@@ -47,5 +50,10 @@ public class Comment implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "storage_id", nullable = false, updatable = false)
     private Storage storage;
+
+
+
+
+
 
 }

@@ -4,17 +4,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
-@Table(name = "parameter")
+@Table(
+        name = "parameter",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "parameter_name_unique", columnNames = "parameter_name")
+        }
+)
 @Data
 @NoArgsConstructor
 public class Parameter implements Serializable {
@@ -25,11 +25,20 @@ public class Parameter implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long parameter_id;
 
-    @NotNull
-    @NotEmpty
-    @Column(unique = true)
-    private String parameter_name,
-            parameter_image;
+    @Column(
+            name = "parameter_name",
+            nullable = false,
+            unique = true,
+            columnDefinition = "TEXT"
+    )
+    private String parameter_name;
+
+    @Column(
+            name = "parameter_image",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
+    private String parameter_image;
 
     // --- RELATIONS --- //
 

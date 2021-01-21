@@ -1,8 +1,5 @@
 package kz.storelink.model.storage;
 
-import kz.storelink.model.storage.Parameter;
-import kz.storelink.model.storage.Storage;
-import kz.storelink.model.user.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,16 +12,20 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class StorageParameter implements Serializable {
 
+    // --- COLUMNS --- //
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storage_parameter_id;
 
+    // --- RELATIONS --- //
+
     // Join two Primary Keys into table StorageParameter
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "storage_id", nullable = true, updatable = true)
+    @JoinColumn(name = "storage_id", nullable = false, updatable = false)
     private Storage storage;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "parameter_id", nullable = true, updatable = true)
+    @JoinColumn(name = "parameter_id", nullable = false)
     private Parameter parameter;
 
 }

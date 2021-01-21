@@ -12,7 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "role")
+@Table(
+        name = "role",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "role_name_unique", columnNames = "role_name"),
+        }
+)
 @Data
 @NoArgsConstructor
 public class Role implements Serializable {
@@ -23,12 +28,21 @@ public class Role implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long role_id;
 
-    @NotNull
-    @NotEmpty
-    @Size(max = 64)
-    @Column(unique = true)
-    private String role_name,
-            role_description;
+    @Column(
+            name = "role_name",
+            nullable = false,
+            unique = true,
+            length = 32,
+            columnDefinition = "TEXT"
+    )
+    private String role_name;
+
+    @Column(
+            name = "role_description",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
+    private String role_description;
 
     // --- RELATIONS --- //
 

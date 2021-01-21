@@ -12,7 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "storage_type")
+@Table(
+        name = "storage_type",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "storage_type_name_unique", columnNames = "storage_type_name")
+        }
+)
 @Data
 @NoArgsConstructor
 public class StorageType implements Serializable {
@@ -23,13 +28,28 @@ public class StorageType implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storage_type_id;
 
-    @NotNull
-    @NotEmpty
-    @Size(max = 255)
-    @Column(unique = true)
-    private String storage_type_name,
-            storage_type_description,
-            storage_type_image;
+    @Column(
+            name = "storage_type_name",
+            nullable = false,
+            unique = true,
+            length = 32,
+            columnDefinition = "TEXT"
+    )
+    private String storage_type_name;
+
+    @Column(
+            name = "storage_type_description",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
+    private String storage_type_description;
+
+    @Column(
+            name = "storage_type_image",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
+    private String storage_type_image;
 
     // --- RELATIONS --- //
 

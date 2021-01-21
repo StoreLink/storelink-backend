@@ -1,4 +1,4 @@
-package kz.storelink.controller;
+package kz.storelink.controller.item;
 
 import org.springframework.stereotype.Controller;
 
