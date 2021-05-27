@@ -1,14 +1,9 @@
 package kz.storelink.model.user;
 
-import kz.storelink.model.Comment;
-import kz.storelink.model.UserItem;
-import kz.storelink.model.UserStorage;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,31 +16,29 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
-
-    //User Attributes
-    @NotNull
-    @NotEmpty
-    private String full_name;
-    private String phone_number;
+    private Long userId;
+    private String username;
+    private String phoneNumber;
+    private String password;
     private String nin;
     private String email;
-    private String password;
-    private String user_image;
-    private String payment_card;
+    private String firstName;
+    private String lastName;
+    private String paymentCard;
+    private String userImage;
+    private String gender;
+    private String age;
 
-    // Relations between User and Role is Many to One annotation linked through FK
-    // Many users can take the same role
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "userId")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "roleId")})
+    private Set<Role> roles = new HashSet<>();
 
-    // Extra column Relation Many to Many Storage-User(Comment), User and Storage, User and Item
-    @OneToMany(mappedBy = "comment_id")
-    private final Set<Comment> comment = new HashSet<Comment>();
-    @OneToMany(mappedBy = "user_storage_id")
-    private final Set<UserStorage> userStorage = new HashSet<UserStorage>();
-    @OneToMany(mappedBy = "user_item_id")
-    private final Set<UserItem> userItem = new HashSet<UserItem>();
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 
 }

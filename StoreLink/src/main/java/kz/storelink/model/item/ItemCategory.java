@@ -4,9 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "item_category")
@@ -16,12 +15,15 @@ public class ItemCategory implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long item_category_id;
+    private Long itemCategoryId;
+    private String itemCategoryName;
+    private String itemCategoryDescription;
+    private String itemCategoryImage;
 
-    @NotNull
-    @NotEmpty
-    private String item_category_name;
-    private String item_category_description;
-    private String item_category_image;
+    // Bidirectional Relations between "ItemCategory and Item" is @OneToMany annotation linked through FK (Foreign Key)
+    // One Item Category has many Item Categories
+    // LAZY = fetch when needed, Cascade = update data in entity without affecting it
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Item> items;
 
 }

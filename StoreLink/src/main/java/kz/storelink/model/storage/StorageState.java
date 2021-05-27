@@ -4,9 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "storage_state")
@@ -16,11 +15,16 @@ public class StorageState implements Serializable  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long storage_state_id;
+    private Long storageStateId;
 
-    @NotNull
-    @NotEmpty
-    private String storage_state_name;
-    private String storage_state_description;
+    private String storageStateName;
+    private String storageStateDescription;
+
+    // --- RELATIONS --- //
+    // Bidirectional Relations between "StorageType and Storage" is @OneToMany annotation linked through FK (Foreign Key)
+    // One storage type has many storages
+    // LAZY = fetch when needed, Cascade = update data in entity without affecting it
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Storage> storages;
 
 }

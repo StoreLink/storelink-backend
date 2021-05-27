@@ -1,16 +1,12 @@
 package kz.storelink.model.item;
 
-import kz.storelink.model.StorageItem;
-import kz.storelink.model.UserItem;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "item")
@@ -20,25 +16,19 @@ public class Item implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long item_id;
+    private Long itemId;
 
-    @NotNull
-    @NotEmpty
-    private String item_name;
-    private String item_description;
-    private Long item_count;
-    private Double item_size;
+    private String itemName;
+    private String itemDescription;
+    private String itemImage;
+    private Long itemCount;
+    private Double itemSize;
+    private Long userId;
 
-    // Relations between Item and category is Many to One annotation linked through FK
-    // Many items can take the same category
-    @ManyToOne
-    @JoinColumn(name = "item_category_id")
-    private ItemCategory itemCategory;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Timestamp createdDate;
 
-    // Extra column Relation Many to Many Item-Storage
-    @OneToMany(mappedBy = "storage_item_id")
-    private final Set<StorageItem> storageItems = new HashSet<StorageItem>();
-    @OneToMany(mappedBy = "user_item_id")
-    private final Set<UserItem> userItems = new HashSet<UserItem>();
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Timestamp updatedDate;
 
 }

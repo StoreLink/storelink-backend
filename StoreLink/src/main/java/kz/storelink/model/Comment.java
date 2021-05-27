@@ -1,14 +1,10 @@
 package kz.storelink.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import kz.storelink.model.storage.Storage;
-import kz.storelink.model.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -20,22 +16,13 @@ public class Comment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long comment_id;
+    private Long commentId;
 
-    @NotNull
-    @NotEmpty
-    private String comment_text;
-    private Double rate;
+    private String commentText;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDate createdDate;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate created_date = LocalDate.now();
-
-    // Join two Primary Keys into table Comment
-    @ManyToOne
-    @JoinColumn(name = "storage_id")
-    private Storage storage;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private Long storageId;
+    private Long userId;
 
 }
